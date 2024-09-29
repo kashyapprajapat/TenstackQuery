@@ -1,8 +1,10 @@
-
+import "../../App.css";
 const Footer = () => {
   return (
-    <div>Footer 🫳🏻</div>
-  )
-}
+    <footer>
+      <p>Footer 🫳🏻Copyright by Kashyap Prajapati.</p>
+    </footer>
+  );
+};
 
-export default Footer
+export default Footer;
