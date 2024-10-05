@@ -17,6 +17,8 @@ const FetchRq = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['quotes'],    // <- it's like useState
     queryFn: getQuotesData,   // <- it's Like a UseEffect
+     // gcTime:2000,          // <- Garbage Collection Time
+     staleTime:7000,          // <- Background refetching for new data instead of cached data
   });
 
   if (isLoading) {
