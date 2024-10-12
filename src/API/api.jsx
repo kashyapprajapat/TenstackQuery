@@ -5,6 +5,7 @@ const api =axios.create({
     baseURL:"https://jsonplaceholder.typicode.com/posts"
 })
 
+// to get all quates
 const getQuotes= (pageNumber) =>{
   const limit = 10;  // Number of items per page
   const start = pageNumber * limit;  // Calculate the start index based on the page number
@@ -21,4 +22,14 @@ const FetchIndividualPost = async (id) =>{
      }
 }
 
-export { getQuotes , FetchIndividualPost}
+// to delete the quates
+const deletePost = async(id)=>{
+  try {
+     return api.delete(`/${id}`);
+  } catch (error) {
+   console.error(error);
+  }
+}
+
+
+export { getQuotes , FetchIndividualPost, deletePost}

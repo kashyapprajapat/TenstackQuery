@@ -1,11 +1,13 @@
 import { NavLink } from "react-router-dom";
-import { getQuotes } from "../API/api";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { deletePost, getQuotes } from "../API/api";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 const FetchRq = () => {
  
   const [pageNumber,setPagenumber] = useState(0);
+  
+  const queryClient = useQueryClient();
 
   const getQuotesData = async (pageNumber) => {
     try {
@@ -27,6 +29,18 @@ const FetchRq = () => {
     // refetchInterval: 7000, // <- After 1 sec reftech for fresh data use in stocke related api
     // refetchIntervalInBackground:true //<- it stop when you go athor tab if true then aslo background reftech 
   });
+
+  //->Murtaion Function to delete the post
+  const deletedata = useMutation({
+    mutationFn:(id)=>deletePost(id),    // <- delete the quate
+    onSuccess:(data,id)=>{               // <- remove from the cache/local storage why bec it not our api otherwise you dont remove from localstorage
+      queryClient.setQueryData(["quotes",pageNumber],(curEle)=>{
+         return curEle?.filter((quates)=> quates.id !== id);
+      })
+    }
+  })
+
+
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -56,6 +70,7 @@ const FetchRq = () => {
               <strong>User ID:</strong> {quote.userId}
             </p>
             </NavLink>
+            <button onClick={()=> deletedata.mutate(quote.id)}>Delete</button>
           </div>
         ))
       ) : (
