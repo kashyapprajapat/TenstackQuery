@@ -31,5 +31,13 @@ const deletePost = async(id)=>{
   }
 }
 
+// to update the quates
+const updatePost = async (id, newTitle) => {
+   try {
+     return api.patch(`/${id}`, { title: newTitle });
+   } catch (error) {
+     console.error(error);
+   }
+ };
 
-export { getQuotes , FetchIndividualPost, deletePost}
+export { getQuotes , FetchIndividualPost, deletePost , updatePost}
